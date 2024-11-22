@@ -4,7 +4,7 @@ public class Coment {
 	
 	private String texto;
 	
-	public void Coment(String texto) {
+	public Coment(String texto) {
 		this.texto = texto;
 	}
 

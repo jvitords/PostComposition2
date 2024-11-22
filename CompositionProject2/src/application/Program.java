@@ -1,38 +1,90 @@
 package application;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 import entities.Post;
 
 public class Program {
 	public static void main(String[] args) {
-		List<Post> postagens = new ArrayList<Post>();
+		List<Post> listaDePostagens = new ArrayList<Post>();
 		
-		Post post = new Post();
-		post.adicionarPost(postagens);
-		
-		Post post2 = new Post();
-		post2.adicionarPost(postagens);
-		
-		post.mostrarPostagensFeitas(postagens);
+		atendimento(listaDePostagens);
 	}
 	
-	/*public static void adicionarPost(List<Post> lista) {
+	public static void menuDeopcoes() {
+		System.out.println("\nESCOLHA A OPÇÃO: \n");
+		System.out.println("1 - Adicionar postagem");
+		System.out.println("2 - Adicionar comentário");
+		System.out.println("3 - Remover postagem");
+		System.out.println("4 - Ver postagens");
+		System.out.println("5 - Ver comentários");
+	}
+	
+	public static void atendimento(List<Post> listaDePostagens) {
 		
 		Scanner digitar = new Scanner(System.in);
-		//List<Post> postagens = new ArrayList<Post>();
+		menuDeopcoes();
+		int opcaoEscolhida = 0;		
 		
-		System.out.println("======== CRIAR NOVA POSTAGEM ========\n");
-		
-		System.out.print("Titulo: ");
-		String tituloPostagem =  digitar.nextLine();  
-		System.out.print("Legenda: ");
-		String legendaPostagem =  digitar.nextLine();  
+		while (opcaoEscolhida != 1) {
+			
+			int opcao = digitar.nextInt();
+			
+			switch (opcao) {
+			case 1:
+				System.out.print("Digite o titulo da postagem: ");
+				digitar.next();
+				String titulo = digitar.nextLine();
+				System.out.print("Digite a legenda da postagem: ");
+				String legenda = digitar.nextLine();
+				LocalDateTime data = LocalDateTime.now();
+				Post postagem = new Post(data, titulo, legenda, null);
+				postagem.adicionarPost(listaDePostagens, postagem);
+				atendimento(listaDePostagens);
+				
+			case 2:
+				mostrarItensDaLista(listaDePostagens);
+				System.out.print("\nDeseja adicionar comentário em qual post? ");
+				int opcaoParaComentario = digitar.nextInt();
+				Post postagemEscolhidaParaAdicionarComentario = listaDePostagens.get(opcaoParaComentario);
+				postagemEscolhidaParaAdicionarComentario.adicionarComentarios();
+				break;
+			
+			case 3:
+				mostrarItensDaLista(listaDePostagens);
+				System.out.print("\nDeseja remover qual postagem? ");
+				int opcaoParaRemoverPostagem = digitar.nextInt();
+				Post postagemEscolhidaParaSerRemovida = listaDePostagens.get(opcaoParaRemoverPostagem);
+				postagemEscolhidaParaSerRemovida.removerPost(listaDePostagens, postagemEscolhidaParaSerRemovida);
+				break;
 
-		Post postagem = new Post(LocalDate.now(), tituloPostagem, legendaPostagem, null);
-		lista.add(postagem);
-	}*/
+			case 4:
+				mostrarItensDaLista(listaDePostagens);
+				break;
+
+			case 5:
+				
+				mostrarItensDaLista(listaDePostagens);
+				System.out.print("\nDeseja ver os comentários de qual postagem? ");
+				int opcaoParaVerComentarios = digitar.nextInt();
+				Post postagemParaVerOsComentarios = listaDePostagens.get(opcaoParaVerComentarios);
+				postagemParaVerOsComentarios.mostrarComentarios();
+				break;
+
+			default:
+				System.out.println("Opção inválida.");
+			digitar.close();
+			}
+		}
+	}
+	
+	public static void mostrarItensDaLista(List<Post> listaDeListPost) {
+		int contador = 1;
+		for(Post postagem : listaDeListPost) {
+			System.out.println("\n----- " + contador + "° Postagem -----");
+			System.out.println("\nData da postagem: " + postagem.getMoment() + "\nTitulo: " + postagem.getTitle() + "\nLegenda: " + postagem.getContent() + "\nNúmero de likes: " + postagem.getLikes() + "\n\n");
+		}
+	}
 }
