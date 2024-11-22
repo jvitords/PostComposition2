@@ -10,21 +10,8 @@ public class Program {
 	public static void main(String[] args) {
 		List<Post> listaDePostagens = new ArrayList<Post>();
 		
-		atendimento(listaDePostagens);
-	}
-	
-	public static void menuDeopcoes() {
-		System.out.println("\nESCOLHA A OPÇÃO: \n");
-		System.out.println("1 - Adicionar postagem");
-		System.out.println("2 - Adicionar comentário");
-		System.out.println("3 - Remover postagem");
-		System.out.println("4 - Ver postagens");
-		System.out.println("5 - Ver comentários");
-	}
-	
-	public static void atendimento(List<Post> listaDePostagens) {
-		
 		Scanner digitar = new Scanner(System.in);
+		
 		menuDeopcoes();
 		int opcaoEscolhida = 0;		
 		
@@ -42,8 +29,8 @@ public class Program {
 				LocalDateTime data = LocalDateTime.now();
 				Post postagem = new Post(data, titulo, legenda, null);
 				postagem.adicionarPost(listaDePostagens, postagem);
-				atendimento(listaDePostagens);
-				
+				break;
+		
 			case 2:
 				mostrarItensDaLista(listaDePostagens);
 				System.out.print("\nDeseja adicionar comentário em qual post? ");
@@ -75,9 +62,19 @@ public class Program {
 
 			default:
 				System.out.println("Opção inválida.");
-			digitar.close();
 			}
+			
+			digitar.close();
 		}
+	}
+	
+	public static void menuDeopcoes() {
+		System.out.println("ESCOLHA A OPÇÃO: \n");
+		System.out.println("1 - Adicionar postagem");
+		System.out.println("2 - Adicionar comentário");
+		System.out.println("3 - Remover postagem");
+		System.out.println("4 - Ver postagens");
+		System.out.println("5 - Ver comentários");
 	}
 	
 	public static void mostrarItensDaLista(List<Post> listaDeListPost) {
